@@ -18,6 +18,17 @@
         <java.version>14</java.version>
     </properties>
 
+    <developers>
+        <developer>
+            <name>Danilo Jakob</name>
+            <email>danilo.murer@gmail.com</email>
+            <roles>
+                <role>Project Leader</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
