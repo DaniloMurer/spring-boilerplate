@@ -40,9 +40,18 @@ public class UserController {
     @PostMapping(value = "/signup")
     public ResponseEntity signUp(@Validated @RequestBody ApplicationUser applicationUser) {
         applicationUser.setPassword(encryption.encode(applicationUser.getPassword()));
-        Role newRole = roleService.findByName("USER");
         Set<Role> roles = new HashSet<>();
-        roles.add(newRole);
+
+        // If no roles are provided, create standard Role User. Else create user with provided roles
+        if (applicationUser.getRoles().isEmpty() || applicationUser.getRoles() == null) {
+            Role newRole = roleService.findByName("USER");
+            roles.add(newRole);
+        } else {
+            applicationUser.getRoles().forEach(role -> {
+                Role tempRole = roleService.findByName(role.getName());
+                roles.add(tempRole);
+            });
+        }
         applicationUser.setRoles(roles);
         userService.saveUser(applicationUser);
         return ResponseEntity.status(HttpStatus.CREATED).build();

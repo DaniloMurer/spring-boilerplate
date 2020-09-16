@@ -15,6 +15,11 @@ To get started you have to clone the repository from GitHub. Then you need to ru
 <br>
 <br>
 After that you can adjust the package names to your needs.
+<br>
+<br>
+<b>Mapped Requests:</b>
+- POST /user/signup - Add new User to the database
+- POST /login - Get JWT Token from Backend 
 
 ## Important
 
