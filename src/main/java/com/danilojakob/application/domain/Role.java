@@ -3,6 +3,10 @@ package com.danilojakob.application.domain;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Role Entity
+ * @copyright Danilo Jakob
+ */
 @Entity
 public class Role {
 

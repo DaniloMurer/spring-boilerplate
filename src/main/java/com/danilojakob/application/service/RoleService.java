@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Role Service
+ * @copyright Danilo Jakob
+ */
 @Service
 public class RoleService {
 

@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * UserDetailsService Service
+ * @copyright Danilo Jakob
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

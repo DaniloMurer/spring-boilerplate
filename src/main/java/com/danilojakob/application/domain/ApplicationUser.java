@@ -3,6 +3,10 @@ package com.danilojakob.application.domain;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * User Entity
+ * @copyright Danilo Jakob
+ */
 @Entity
 public class ApplicationUser {
 

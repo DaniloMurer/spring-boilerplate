@@ -4,6 +4,10 @@ import com.danilojakob.application.domain.ApplicationUser;
 import com.danilojakob.application.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * User Service
+ * @copyright Danilo Jakob
+ */
 @Service
 public class UserService {
 

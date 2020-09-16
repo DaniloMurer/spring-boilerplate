@@ -22,6 +22,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * JWT Authentication Filter
+ * @copyright Danilo Jakob
+ */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
@@ -58,13 +62,4 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
     }
-
-    private Set getAuthorities(ApplicationUser applicationUser) {
-        Set authorities = new HashSet();
-        applicationUser.getRoles().forEach( role -> {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-        });
-        return authorities;
-    }
-
 }
