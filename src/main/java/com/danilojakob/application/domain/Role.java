@@ -1,5 +1,7 @@
 package com.danilojakob.application.domain;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -8,6 +10,7 @@ import java.util.Set;
  * @copyright Danilo Jakob
  */
 @Entity
+@Data
 public class Role {
 
     @Id
@@ -20,27 +23,4 @@ public class Role {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<ApplicationUser> applicationUsers;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<ApplicationUser> getApplicationUsers() {
-        return applicationUsers;
-    }
-
-    public void setApplicationUsers(Set<ApplicationUser> applicationUsers) {
-        this.applicationUsers = applicationUsers;
-    }
 }

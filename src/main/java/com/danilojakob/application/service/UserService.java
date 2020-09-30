@@ -2,6 +2,7 @@ package com.danilojakob.application.service;
 
 import com.danilojakob.application.domain.ApplicationUser;
 import com.danilojakob.application.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,16 +10,13 @@ import org.springframework.stereotype.Service;
  * @copyright Danilo Jakob
  */
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     /**
      * Repository to access data from service
      */
-    private UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
 
     /**
      * Get User by it's username

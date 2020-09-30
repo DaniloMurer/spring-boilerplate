@@ -4,6 +4,7 @@ import com.danilojakob.application.security.JwtAuthenticationFilter;
 import com.danilojakob.application.security.JwtAuthorizationFilter;
 import com.danilojakob.application.security.SecurityConstants;
 import com.danilojakob.application.service.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -19,15 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsServiceImpl userDetailsService;
-    private BCryptPasswordEncoder encryption;
-
-    public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder encryption) {
-        this.userDetailsService = userDetailsService;
-        this.encryption = encryption;
-    }
+    private final UserDetailsServiceImpl userDetailsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,7 +45,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encryption);
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
 }

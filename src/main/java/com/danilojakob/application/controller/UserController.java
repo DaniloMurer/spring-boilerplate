@@ -4,12 +4,15 @@ import com.danilojakob.application.domain.ApplicationUser;
 import com.danilojakob.application.domain.Role;
 import com.danilojakob.application.service.RoleService;
 import com.danilojakob.application.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,17 +23,12 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
-    private RoleService roleService;
-    private BCryptPasswordEncoder encryption;
-
-    public UserController(UserService userService, BCryptPasswordEncoder encryption, RoleService roleService) {
-        this.userService = userService;
-        this.encryption = encryption;
-        this.roleService = roleService;
-    }
+    private final UserService userService;
+    private final RoleService roleService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * Create a new User
@@ -39,7 +37,7 @@ public class UserController {
      */
     @PostMapping(value = "/signup")
     public ResponseEntity signUp(@Validated @RequestBody ApplicationUser applicationUser) {
-        applicationUser.setPassword(encryption.encode(applicationUser.getPassword()));
+        applicationUser.setPassword(bCryptPasswordEncoder.encode(applicationUser.getPassword()));
         Set<Role> roles = new HashSet<>();
 
         // If no roles are provided, create standard Role User. Else create user with provided roles
