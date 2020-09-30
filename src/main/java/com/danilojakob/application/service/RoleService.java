@@ -2,6 +2,7 @@ package com.danilojakob.application.service;
 
 import com.danilojakob.application.domain.Role;
 import com.danilojakob.application.repository.RoleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,19 +12,16 @@ import java.util.List;
  * @copyright Danilo Jakob
  */
 @Service
+@RequiredArgsConstructor
 public class RoleService {
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    public RoleService(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    public List<Role> findByNames(List<String> roles) {
+        return roleRepository.findByNameIn(roles);
     }
 
-    public Role findByName(String name) {
-        return roleRepository.findByName(name);
-    }
-
-    public List<Role> findAll() {
-        return this.roleRepository.findAll();
+    public Role getDefaultRole() {
+        return roleRepository.findByName("USER");
     }
 }

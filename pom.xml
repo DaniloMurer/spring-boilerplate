@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.6.RELEASE</version>
+        <version>2.3.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.danilojakob</groupId>
@@ -16,6 +16,9 @@
 
     <properties>
         <java.version>14</java.version>
+        <auth0-spring-security-api.version>1.1.0</auth0-spring-security-api.version>
+        <asciidoctor-maven-plugin.version>1.5.8</asciidoctor-maven-plugin.version>
+        <lombok.version>1.18.12</lombok.version>
     </properties>
 
     <developers>
@@ -24,6 +27,14 @@
             <email>danilo.murer@gmail.com</email>
             <roles>
                 <role>Project Leader</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Michael Baumberger</name>
+            <email>michael_baumberger@gmx.ch</email>
+            <roles>
+                <role>Bug Fixer</role>
                 <role>Developer</role>
             </roles>
         </developer>
@@ -37,7 +48,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>auth0-spring-security-api</artifactId>
-            <version>1.1.0</version>
+            <version>${auth0-spring-security-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,6 +85,14 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -81,7 +100,7 @@
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.8</version>
+                <version>${asciidoctor-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>generate-docs</id>

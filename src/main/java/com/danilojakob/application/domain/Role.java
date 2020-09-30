@@ -1,13 +1,19 @@
 package com.danilojakob.application.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Role Entity
  * @copyright Danilo Jakob
  */
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
 
     @Id
@@ -17,30 +23,4 @@ public class Role {
     @Column(nullable = false, length = 256)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<ApplicationUser> applicationUsers;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<ApplicationUser> getApplicationUsers() {
-        return applicationUsers;
-    }
-
-    public void setApplicationUsers(Set<ApplicationUser> applicationUsers) {
-        this.applicationUsers = applicationUsers;
-    }
 }
