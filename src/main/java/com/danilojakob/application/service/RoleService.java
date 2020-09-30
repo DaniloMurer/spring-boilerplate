@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Role Service
@@ -18,7 +17,7 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
 
-    public Set<Role> findByNames(List<String> roles) {
+    public List<Role> findByNames(List<String> roles) {
         return roleRepository.findByNameIn(roles);
     }
 

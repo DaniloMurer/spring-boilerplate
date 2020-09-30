@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 /**
  * User Entity
@@ -28,9 +28,9 @@ public class User {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private List<Role> roles;
 
-    public User(String username, String password, Set<Role> roles){
+    public User(String username, String password, List<Role> roles){
         this.id = 0;
         this.username = username;
         this.password = password;

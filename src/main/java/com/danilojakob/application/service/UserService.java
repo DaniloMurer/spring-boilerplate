@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * User Service
@@ -28,7 +28,7 @@ public class UserService {
 
     public User createUserFrom(SignUpDto signUpDto) {
 
-        Set<Role> roles = roleService.findByNames(signUpDto.getRoles());
+        List<Role> roles = roleService.findByNames(signUpDto.getRoles());
         if(roles.isEmpty()){
             roles.add(roleService.getDefaultRole());
         }
