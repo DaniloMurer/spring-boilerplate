@@ -37,7 +37,7 @@ public class UserController {
     /**
      * Create a new User
      * @param user {@link User} user to create
-     * @return {@link ResponseEntity} with Status Code and new created User
+     * @return {@link ResponseEntity} with Status Code
      */
     @PostMapping(value = "/signup")
     public ResponseEntity signUp(@Validated @RequestBody SignUpDto signUpDto) {
