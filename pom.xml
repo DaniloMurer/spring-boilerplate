@@ -27,6 +27,14 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <name>Michael Baumberger</name>
+            <email>michael_baumberger@gmx.ch</email>
+            <roles>
+                <role>Bug Fixer</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
     </developers>
 
     <dependencies>
