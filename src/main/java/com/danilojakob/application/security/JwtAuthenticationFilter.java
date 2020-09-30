@@ -2,7 +2,7 @@ package com.danilojakob.application.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.danilojakob.application.domain.ApplicationUser;
+import com.danilojakob.application.domain.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -33,7 +32,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
-            ApplicationUser credentials = new ObjectMapper().readValue(req.getInputStream(), ApplicationUser.class);
+            User credentials = new ObjectMapper().readValue(req.getInputStream(), User.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword(), Collections.emptyList())
             );
@@ -44,15 +43,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
-        User applicationUser = (User) auth.getPrincipal();
-        SimpleGrantedAuthority[] authorities = applicationUser.getAuthorities().toArray(new SimpleGrantedAuthority[applicationUser.getAuthorities().size()]);
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+        SimpleGrantedAuthority[] authorities = user.getAuthorities().toArray(new SimpleGrantedAuthority[user.getAuthorities().size()]);
         String[] roleNames = new String[authorities.length];
         for (int i = 0; i < roleNames.length; i++) {
             roleNames[i] = authorities[i].getAuthority();
         }
-        String token = JWT.create().withSubject(applicationUser.getUsername())
+        String token = JWT.create().withSubject(user.getUsername())
                 .withArrayClaim("roles", roleNames)
-                .withClaim("name", applicationUser.getUsername())
+                .withClaim("name", user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_DATE))
                     .sign(Algorithm.HMAC256(SecurityConstants.SECRET.getBytes()));
 

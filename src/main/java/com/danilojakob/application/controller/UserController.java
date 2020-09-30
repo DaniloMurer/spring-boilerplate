@@ -1,21 +1,19 @@
 package com.danilojakob.application.controller;
 
-import com.danilojakob.application.domain.ApplicationUser;
-import com.danilojakob.application.domain.Role;
+import com.danilojakob.application.domain.User;
+import com.danilojakob.application.dtos.SignUpDto;
 import com.danilojakob.application.service.RoleService;
 import com.danilojakob.application.service.UserService;
+import com.danilojakob.application.validator.SignUpValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * User Controller
@@ -29,29 +27,28 @@ public class UserController {
     private final UserService userService;
     private final RoleService roleService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final SignUpValidator signUpValidator;
+
+    @InitBinder("signUpDto")
+    public void initChangeCommuneBinder(WebDataBinder binder) {
+        binder.setValidator(signUpValidator);
+    }
 
     /**
      * Create a new User
-     * @param applicationUser {@link ApplicationUser} user to create
+     * @param user {@link User} user to create
      * @return {@link ResponseEntity} with Status Code and new created User
      */
     @PostMapping(value = "/signup")
-    public ResponseEntity signUp(@Validated @RequestBody ApplicationUser applicationUser) {
-        applicationUser.setPassword(bCryptPasswordEncoder.encode(applicationUser.getPassword()));
-        Set<Role> roles = new HashSet<>();
+    public ResponseEntity signUp(@Validated @RequestBody SignUpDto signUpDto) {
 
-        // If no roles are provided, create standard Role User. Else create user with provided roles
-        if (applicationUser.getRoles().isEmpty() || applicationUser.getRoles() == null) {
-            Role newRole = roleService.findByName("USER");
-            roles.add(newRole);
-        } else {
-            applicationUser.getRoles().forEach(role -> {
-                Role tempRole = roleService.findByName(role.getName());
-                roles.add(tempRole);
-            });
+        if(signUpDto.getRoles() == null){
+            signUpDto.setRoles(new ArrayList<>());
         }
-        applicationUser.setRoles(roles);
-        userService.saveUser(applicationUser);
+
+        User createdUser = userService.createUserFrom(signUpDto);
+        userService.save(createdUser);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+
     }
 }

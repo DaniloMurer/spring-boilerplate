@@ -1,9 +1,10 @@
 package com.danilojakob.application.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Role Entity
@@ -11,6 +12,8 @@ import java.util.Set;
  */
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
 
     @Id
@@ -19,8 +22,5 @@ public class Role {
 
     @Column(nullable = false, length = 256)
     private String name;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<ApplicationUser> applicationUsers;
 
 }
