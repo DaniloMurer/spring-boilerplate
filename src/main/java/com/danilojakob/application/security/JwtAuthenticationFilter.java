@@ -9,16 +9,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * JWT Authentication Filter
@@ -42,18 +43,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    public void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
+    public void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) {
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
-        SimpleGrantedAuthority[] authorities = user.getAuthorities().toArray(new SimpleGrantedAuthority[user.getAuthorities().size()]);
-        String[] roleNames = new String[authorities.length];
-        for (int i = 0; i < roleNames.length; i++) {
-            roleNames[i] = authorities[i].getAuthority();
-        }
+
+        List<GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
+
         String token = JWT.create().withSubject(user.getUsername())
-                .withArrayClaim("roles", roleNames)
+                .withArrayClaim("roles", authorities.stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .toArray(String[]::new)
+                )
                 .withClaim("name", user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_DATE))
-                    .sign(Algorithm.HMAC256(SecurityConstants.SECRET.getBytes()));
+                .sign(Algorithm.HMAC256(SecurityConstants.SECRET.getBytes()));
 
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
     }
