@@ -36,7 +36,7 @@ public class UserController {
 
     /**
      * Create a new User
-     * @param user {@link User} user to create
+     * @param signUpDto {@link SignUpDto} user to create
      * @return {@link ResponseEntity} with Status Code
      */
     @PostMapping(value = "/signup")
