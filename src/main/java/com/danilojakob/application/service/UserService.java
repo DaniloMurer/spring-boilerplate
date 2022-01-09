@@ -5,7 +5,7 @@ import com.danilojakob.application.domain.User;
 import com.danilojakob.application.dtos.SignUpDto;
 import com.danilojakob.application.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
 
     /**
@@ -35,7 +35,7 @@ public class UserService {
 
         return new User(
                 signUpDto.getUsername(),
-                bCryptPasswordEncoder.encode(signUpDto.getPassword()),
+                passwordEncoder.encode(signUpDto.getPassword()),
                 roles
         );
     }

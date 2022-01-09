@@ -2,13 +2,11 @@ package com.danilojakob.application.controller;
 
 import com.danilojakob.application.domain.User;
 import com.danilojakob.application.dtos.SignUpDto;
-import com.danilojakob.application.service.RoleService;
 import com.danilojakob.application.service.UserService;
 import com.danilojakob.application.validator.SignUpValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +23,6 @@ import java.util.ArrayList;
 public class UserController {
 
     private final UserService userService;
-    private final RoleService roleService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final SignUpValidator signUpValidator;
 
     @InitBinder("signUpDto")
