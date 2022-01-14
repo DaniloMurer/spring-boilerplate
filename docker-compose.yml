@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  spring-boot-api:
+    container_name: spring-boot-api
+    build:
+      context: "./"
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"

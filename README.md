@@ -21,6 +21,21 @@ After that you can adjust the package names to your needs.
 - POST /user/signup - Add new User to the database
 - POST /login - Get JWT Token from Backend 
 
+## Run as Docker container
+
+First make sure to install docker and docker-compose on the respective OS you're using.
+
+The second step is to build the jar file, this can be done using following command:
+
+```bash
+mvn clean install
+```
+
+Then you can build and run the container:
+
+```bash
+sudo docker-compose up --build
+```
 ## Important
 
 This repository and the code is licensed under the MIT License, thus means you need to mention that the code is from me.
