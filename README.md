@@ -38,5 +38,5 @@ sudo docker-compose up --build
 ```
 ## Important
 
-This repository and the code is licensed under the MIT License, thus means you need to mention that the code is from me.
+This repository and the code is licensed under the MIT License, thus means you need to mention that the code is from us.
 
